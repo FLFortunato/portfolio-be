@@ -1,0 +1,11 @@
+{
+  "name": "NewProAuth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "node-sass": "^4.14.1",
+    "typescript": "^3.8.3"
+  }
+}
