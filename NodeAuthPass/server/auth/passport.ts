@@ -1,13 +1,13 @@
-// import * as passport from "passport";
+// import * as passport from 'passport';
 // import { ExtractJwt, Strategy } from 'passport-jwt';
-// import * as dotenv from "dotenv";
-// import { User } from "../models/user.model";
+// import * as dotenv from 'dotenv';
+// import { User } from '../models/user.model';
 // dotenv.config();
 
 // export default passport.use(
 //   new Strategy(
 //     {
-//       jwtFromRequest: ExtractJwt.fromAuthHeader("authorization"),
+//       jwtFromRequest: ExtractJwt.fromAuthHeader('authorization'),
 //       secretOrkey: process.env.SECRET_TOKEN as string,
 //     },
 //     async (payload: any, done: any) => {
