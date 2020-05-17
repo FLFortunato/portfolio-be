@@ -1,16 +1,18 @@
-import {Model, Table, Column} from 'sequelize-typescript'
+import { Model, Table, Column, HasMany } from 'sequelize-typescript';
 
+import { Post } from './post.model';
 
 @Table
-export class User extends Model<User>{
+export class User extends Model<User> {
+  @Column
+  name: string;
 
-    @Column
-    name: string
+  @Column
+  email: string;
 
-    @Column
-    email: string
+  @Column
+  password: string;
 
-    @Column 
-    password: string
-    
+  @HasMany(() => Post)
+  post: Post[];
 }
