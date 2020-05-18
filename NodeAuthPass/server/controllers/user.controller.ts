@@ -64,7 +64,7 @@ export const UserController = () => {
   };
 
   router.post('/', create);
-  router.get('/', all);
+  router.get('/',auth, all);
   router.get('/:id', findOne);
   router.delete('/:id', remove);
   router.put('/:id', update);
