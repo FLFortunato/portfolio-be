@@ -1,12 +1,8 @@
 import React from 'react';
-import { LoginPage } from './components/Register/register.page';
-
+import { Register } from './components/pages/Register/register.page';
+import { RoutesPage } from './components/routes/routes';
 const App = () => {
-  return (
-    <div>
-      <LoginPage />
-    </div>
-  );
+  return <RoutesPage />;
 };
 
 export default App;

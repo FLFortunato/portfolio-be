@@ -10,7 +10,6 @@ export abstract class BaseService<T> {
     this.url = url;
   }
 
-
   public get(): Promise<AxiosResponse<T>> {
     return HttpService.get(this.url);
   }
@@ -19,20 +18,19 @@ export abstract class BaseService<T> {
     return HttpService.post(this.url, data);
   }
 
-  public update(
-    id: number,
-    data: T
-  ): Promise<AxiosResponse<T>>{
+  public update(id: number, data: T): Promise<AxiosResponse<T>> {
     return HttpService.put(`${this.url}/${id}`, data);
   }
 
-  public getById(
-    id: number | string
-  ): Promise<AxiosResponse<T>> {
+  public getById(id: number | string): Promise<AxiosResponse<T>> {
     return HttpService.get(`${this.url}/${id}`);
   }
 
   public delete(id: number): Promise<AxiosResponse<any>> {
     return HttpService.delete(`${this.url}/${id}`);
+  }
+
+  public login(data: any): Promise<AxiosResponse<any>> {
+    return HttpService.post(`${this.url}/login`, data);
   }
 }
