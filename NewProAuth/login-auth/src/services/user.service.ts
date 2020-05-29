@@ -2,8 +2,10 @@ import { User } from '../models/user.model';
 
 import { BaseService } from './base.service';
 
-class UserService extends BaseService<User> {}
+const UserService = () => {
+  const { checkEmail, remove, get, getById, update, save, login } = BaseService('user');
 
-const UserServiceInstance = new UserService('user');
+  return { checkEmail, remove, get, getById, update, save, login }
+};
 
-export default UserServiceInstance;
+export default UserService;

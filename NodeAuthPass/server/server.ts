@@ -7,6 +7,7 @@ import { Company } from './models/company.model';
 import { AppController } from './routes/index';
 import passport = require('passport');
 import { Post } from './models/post.model';
+import * as nodemailer from 'nodemailer';
 // import ConfigureJwt from './auth/passport'
 
 const cors = require('cors');

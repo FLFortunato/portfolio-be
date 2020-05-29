@@ -4,5 +4,10 @@ import { User } from '../models/user.model';
 export const UserService = () => {
   const { all, create, findOne, remove, update } = BaseService(User);
 
-  return { all, create, findOne, remove, update };
+  const findByEmail = async (email: any) => {
+    const result = await User.findOne({ where: { email } });
+    return result;
+  };
+
+  return { all, create, findOne, remove, update, findByEmail };
 };

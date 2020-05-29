@@ -1,36 +1,35 @@
 import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 
-import HttpService from './http.service';
+import { HttpService } from './http.service';
+export const BaseService = (url: string) => {
+  const get = () => {
+    return HttpService().get(url);
+  };
 
-export abstract class BaseService<T> {
-  url: string;
+  const save = (data: any): Promise<AxiosResponse<any>> => {
+    return HttpService().post(url, data);
+  };
 
-  constructor(url: any) {
-    this.url = url;
-  }
+  const update = (id: number, data: any): Promise<AxiosResponse<any>> => {
+    return HttpService().put(`${url}/${id}`, data);
+  };
 
-  public get(): Promise<AxiosResponse<T>> {
-    return HttpService.get(this.url);
-  }
+  const getById = (id: number | string): Promise<AxiosResponse<any>> => {
+    return HttpService().get(`${url}/${id}`);
+  };
 
-  public save(data: T): Promise<AxiosResponse<T>> {
-    return HttpService.post(this.url, data);
-  }
+  const remove = (id: number): Promise<AxiosResponse<any>> => {
+    return HttpService().remove(`${url}/${id}`);
+  };
 
-  public update(id: number, data: T): Promise<AxiosResponse<T>> {
-    return HttpService.put(`${this.url}/${id}`, data);
-  }
+  const login = (data: any): Promise<AxiosResponse<any>> => {
+    return HttpService().post(`${url}/login`, data);
+  };
 
-  public getById(id: number | string): Promise<AxiosResponse<T>> {
-    return HttpService.get(`${this.url}/${id}`);
-  }
+  const checkEmail = (data: any): Promise<AxiosResponse<any>> => {
+    return HttpService().get(`${url}/emailcheck`, data);
+  };
 
-  public delete(id: number): Promise<AxiosResponse<any>> {
-    return HttpService.delete(`${this.url}/${id}`);
-  }
-
-  public login(data: any): Promise<AxiosResponse<any>> {
-    return HttpService.post(`${this.url}/login`, data);
-  }
-}
+  return { get, save, login, checkEmail, update, getById, remove };
+};

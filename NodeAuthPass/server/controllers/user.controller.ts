@@ -57,9 +57,21 @@ export const UserController = () => {
         process.env.SECRET_TOKEN as string
       );
 
-      return res.header('auth-token', token).send(token);
+      return res.header('auth-token', token).send({ token, user });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
+    }
+  };
+
+  const findByEmail = async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+
+      const result = await User.findAll({ where: { email } });
+
+      return res.status(200).send(result);
+    } catch (error) {
+      return res.send('error');
     }
   };
 
@@ -69,6 +81,7 @@ export const UserController = () => {
   router.delete('/:id', remove);
   router.put('/:id', update);
   router.post('/login', login);
+  router.get('/emailcheck', findByEmail);
 
   return router;
 };
