@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './register.scss';
 import { Form } from '@unform/web';
 import { Input } from '../../Forms/input';
 import * as yup from 'yup';
 
-export const Register = () => {
+export const Login = () => {
   const [check, setCheck] = useState(Boolean);
   const [isChecked, setIsChecked] = useState('password');
   const [classs, setClasss] = useState('');
@@ -57,12 +56,8 @@ export const Register = () => {
               className='form-group position '
               ref={formRef}
             >
-              <h1 className='text-white mb-5'>Registrar</h1>
-              <Input
-                name='name'
-                className={`w-50 form-control  ${classs}`}
-                placeholder='Nome'
-              />
+              <h1 className='text-white mb-5'>Login</h1>
+
               <Input
                 name='email'
                 className={`w-50 form-control mt-3 ${classs}`}
@@ -74,12 +69,7 @@ export const Register = () => {
                 placeholder='Senha'
                 type={`${isChecked}`}
               />
-              <Input
-                name='passwordCheck'
-                className='w-50 form-control mt-3'
-                placeholder='Confirme a senha'
-                type={`${isChecked}`}
-              />
+
               <div className='mt-2'>
                 <input
                   name='password'
@@ -92,7 +82,7 @@ export const Register = () => {
                 </label>
               </div>
               <button className='btn btn-success rounded mt-3 w-50'>
-                Registrar
+                Login
               </button>
             </Form>
           </div>
