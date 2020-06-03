@@ -1,15 +1,15 @@
 import React from 'react';
-import './home.scss';
+import './contact.scss';
 import { Header } from '../siteStructures/header/header';
-import { Main } from '../siteStructures/main/main';
+
 import { Footer } from '../siteStructures/footer/footer';
 
-export const Home = () => {
+export const Contact = () => {
   return (
-    <div className='Home'>
+    <div className='Contact'>
       <Header />
-      <div className='home'>
-        <h1>Home</h1>
+      <div className='contact'>
+        <h1>Contact</h1>
       </div>
       <Footer />
     </div>

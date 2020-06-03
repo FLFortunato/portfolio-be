@@ -1,0 +1,17 @@
+.footer {
+  h1 {
+    margin-bottom: 0;
+  }
+  color: white;
+  .main {
+    height: 10vh;
+    width: 100%;
+    background: rgb(1, 4, 2);
+    background: linear-gradient(
+      90deg,
+      rgba(1, 4, 2, 1) 4%,
+      rgba(0, 10, 36, 1) 22%,
+      rgba(36, 139, 53, 1) 97%
+    );
+  }
+}

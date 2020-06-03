@@ -1,15 +1,15 @@
 import React from 'react';
-import './home.scss';
+import './projects.scss';
 import { Header } from '../siteStructures/header/header';
-import { Main } from '../siteStructures/main/main';
+
 import { Footer } from '../siteStructures/footer/footer';
 
-export const Home = () => {
+export const Projects = () => {
   return (
-    <div className='Home'>
+    <div className='Projects'>
       <Header />
-      <div className='home'>
-        <h1>Home</h1>
+      <div className='projects'>
+        <h1>Projects</h1>
       </div>
       <Footer />
     </div>
