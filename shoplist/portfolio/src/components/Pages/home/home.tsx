@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from '../siteStructures/header';
+import { Header } from '../siteStructures/header/header';
 import { Main } from '../siteStructures/main';
 import { Footer } from '../siteStructures/footer';
 
