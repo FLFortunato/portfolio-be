@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './header.scss';
+
 export const Header = () => {
+  const logOut = () => {
+    localStorage.clear();
+  };
   return (
     <div className='header'>
       <div className='main d-flex justify-content-between'>
@@ -18,6 +22,14 @@ export const Header = () => {
             </li>
             <li className='m-2'>
               <a href='/contato'> Contato</a>
+            </li>
+            <li className='m-2'>
+              <a href='/perfil'> Perfil</a>
+            </li>
+            <li className='m-2'>
+              <div onClick={logOut}>
+                <a href=''>Sair</a>
+              </div>
             </li>
           </ul>
         </nav>

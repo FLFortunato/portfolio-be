@@ -7,7 +7,7 @@ export const BaseService = (url: string) => {
     return HttpService().get(url);
   };
 
-  const save = (data: any): Promise<AxiosResponse<any>> => {
+  const create = (data: any): Promise<AxiosResponse<any>> => {
     return HttpService().post(url, data);
   };
 
@@ -31,5 +31,5 @@ export const BaseService = (url: string) => {
     return HttpService().get(`${url}/emailcheck`, data);
   };
 
-  return { get, save, login, checkEmail, update, getById, remove };
+  return { get, create, login, checkEmail, update, getById, remove };
 };

@@ -1,9 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './todoList.scss';
-import { Input } from '../../../Forms/input';
-export const TodoList = () => {
-  const [list, setList] = useState([{ content: 'this' }]);
+import { InputCS } from '../../../Forms/input';
+import { TodoListService } from '../../../services/todoList.service';
+import { TodoList } from '../../../../models/todoList.model';
+import { EditModal } from './modal';
+import { TodoListContext } from '../../../context/todoList.context';
+export const TodoListApp = () => {
+  const [list, setList] = useState<TodoList[]>([]);
+  const [reloadList, setReloadList] = useState([{}]);
+  const [content, setContent] = useState('');
 
+  const userid = JSON.parse(localStorage.getItem('userid') || '{}');
+  useEffect(() => {
+    TodoListService()
+      .getByUserId(userid)
+      .then((res) => {
+        setList(res.data);
+      });
+  }, [reloadList]);
+
+  const createTodo = () => {
+    if (content === '') {
+      return;
+    }
+    setReloadList([...reloadList, { content }]);
+    TodoListService().create(userid, { content });
+
+    setContent('');
+  };
+
+  const deleteTodo = (e: any) => {
+    TodoListService().remove(e);
+    setReloadList([]);
+  };
   return (
     <div className='container TodoList rounded'>
       <div className='listBody mt-2 border rounded'>
@@ -20,13 +49,12 @@ export const TodoList = () => {
                 >
                   <p>{l.content}</p>
                   <div>
-                    {' '}
-                    <button className='btn btn-primary'>
-                      <span className='material-icons'>edit</span>
-                    </button>
+                    <TodoListContext.Provider value={{ setReloadList }}>
+                      <EditModal data={l.id} />
+                    </TodoListContext.Provider>
                     <button
                       className='btn btn-danger ml-1'
-                      onClick={() => console.log(i)}
+                      onClick={() => deleteTodo(l.id)}
                     >
                       <span className='material-icons'>delete_outline</span>
                     </button>
@@ -36,8 +64,15 @@ export const TodoList = () => {
             })}
         </div>
         <div className='listFooter border p-2'>
-          <input type='text' className='form-control w-100 ' />
-          <button className='btn btn-success w-100 mt-1'>Enviar</button>
+          <input
+            type='text'
+            className='form-control w-100 '
+            onChange={(e: any) => setContent(e.target.value)}
+            value={content}
+          />
+          <button className='btn btn-success w-100 mt-1' onClick={createTodo}>
+            Enviar
+          </button>
         </div>
       </div>
     </div>

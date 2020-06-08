@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './register.scss';
 import { Form } from '@unform/web';
-import { Input } from '../../Forms/input';
+import { InputCS } from '../../Forms/input';
 import * as yup from 'yup';
-
+import { Userservice } from '../../services/user.service';
+import { history } from '../../../history';
 export const Register = () => {
   const [check, setCheck] = useState(Boolean);
   const [isChecked, setIsChecked] = useState('password');
@@ -26,8 +27,9 @@ export const Register = () => {
       await formSchema.validate(data, {
         abortEarly: false,
       });
-      console.log('deu certo');
 
+      Userservice().create(data);
+      history.push('/');
       reset();
     } catch (error) {
       if (error instanceof yup.ValidationError) {
@@ -58,34 +60,34 @@ export const Register = () => {
               ref={formRef}
             >
               <h1 className='text-white mb-5'>Registrar</h1>
-              <Input
+              <InputCS
                 name='name'
                 className={`w-50 form-control  ${classs}`}
                 placeholder='Nome'
               />
-              <Input
+              <InputCS
                 name='email'
                 className={`w-50 form-control mt-3 ${classs}`}
                 placeholder='E-mail'
               />
-              <Input
+              <InputCS
                 name='password'
                 className={`w-50 form-control mt-3 ${classs}`}
                 placeholder='Senha'
                 type={`${isChecked}`}
               />
-              <Input
+              <InputCS
                 name='passwordCheck'
                 className='w-50 form-control mt-3'
                 placeholder='Confirme a senha'
                 type={`${isChecked}`}
               />
               <div className='mt-2'>
-                <input
+                <InputCS
                   name='password'
                   type='checkbox'
                   className=''
-                  onChange={(e) => setCheck(e.target.checked)}
+                  onChange={(e: any) => setCheck(e.target.checked)}
                 />
                 <label htmlFor='' className='text-white ml-2'>
                   Mostrar senha
