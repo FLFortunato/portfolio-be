@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Modal, ModalTitle, ModalBody, ModalFooter } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/ModalHeader';
-import { TodoListService } from '../../../services/todoList.service';
+import { TodoListService } from '../../../../services/todoList.service';
 
 export const EditModal = (data: any) => {
   const [isOpen, setIsOpen] = React.useState(false);

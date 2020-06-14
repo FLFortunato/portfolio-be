@@ -3,7 +3,7 @@ import './register.scss';
 import { Form } from '@unform/web';
 import { InputCS } from '../../Forms/input';
 import * as yup from 'yup';
-import { Userservice } from '../../services/user.service';
+import { Userservice } from '../../../services/user.service';
 import { history } from '../../../history';
 export const Register = () => {
   const [check, setCheck] = useState(Boolean);
@@ -66,6 +66,11 @@ export const Register = () => {
                 placeholder='Nome'
               />
               <InputCS
+                name='lastName'
+                className={`w-50 form-control mt-3  ${classs}`}
+                placeholder='Sobrenome'
+              />
+              <InputCS
                 name='email'
                 className={`w-50 form-control mt-3 ${classs}`}
                 placeholder='E-mail'
@@ -82,17 +87,7 @@ export const Register = () => {
                 placeholder='Confirme a senha'
                 type={`${isChecked}`}
               />
-              <div className='mt-2'>
-                <InputCS
-                  name='password'
-                  type='checkbox'
-                  className=''
-                  onChange={(e: any) => setCheck(e.target.checked)}
-                />
-                <label htmlFor='' className='text-white ml-2'>
-                  Mostrar senha
-                </label>
-              </div>
+              <div className='mt-2'></div>
               <button className='btn btn-success rounded mt-3 w-50'>
                 Registrar
               </button>

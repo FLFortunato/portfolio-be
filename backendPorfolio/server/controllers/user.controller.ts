@@ -12,7 +12,7 @@ import * as jwt from 'jsonwebtoken';
 export const UserController = () => {
   const router = Router();
 
-  const { all, update, remove, findOne } = RouterBase(User, UserService);
+  const { all, remove, findOne, update } = RouterBase(User, UserService);
 
   const create = async (req: Request, res: Response) => {
     try {
@@ -82,6 +82,24 @@ export const UserController = () => {
       return error;
     }
   };
+
+  const upDateProfile = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { name, password, email } = req.body;
+      const salt = await bcrypt.genSalt(10);
+      const hashedPass = await bcrypt.hash(password, salt);
+      const result = await User.update(
+        { name, password: hashedPass, email },
+        { where: { id } }
+      );
+
+      return res.status(200).send(result);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  };
+
   router.post('/', create);
   router.get('/:id', findOne);
   router.get('/', all);
@@ -89,6 +107,7 @@ export const UserController = () => {
   router.put('/:id', update);
   router.get('/name/:id', findAll);
   router.post('/login', login);
+  router.put('/updateProfile/:id', upDateProfile);
 
   return router;
 };

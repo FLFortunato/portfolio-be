@@ -27,6 +27,6 @@ app.listen(5052, () => {
   sequelize.authenticate().then(() => {
     sequelize.addModels(models);
 
-    sequelize.sync();
+    //sequelize.sync({ force: true });
   });
 });

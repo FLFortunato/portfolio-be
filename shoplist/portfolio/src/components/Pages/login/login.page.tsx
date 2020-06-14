@@ -3,7 +3,7 @@ import './login.scss';
 import { Form } from '@unform/web';
 import { InputCS } from '../../Forms/input';
 import * as yup from 'yup';
-import { Userservice } from '../../services/user.service';
+import { Userservice } from '../../../services/user.service';
 import { history } from '../../../history';
 
 export const Login = () => {
@@ -30,11 +30,18 @@ export const Login = () => {
       Userservice()
         .login(data)
         .then((res) => {
-          localStorage.setItem('auth-token', res.data.token);
-          const userIdCheck = res.data.user.id;
-          localStorage.setItem('userid', userIdCheck);
+          if (res.data.user.emailConfirmed === false) {
+            alert('Confirme o endereço de email');
+          } else {
+            localStorage.setItem('auth-token', res.data.token);
+            const userIdCheck = res.data.user.id;
+            localStorage.setItem('userid', userIdCheck);
 
-          history.push('/');
+            history.push('/');
+          }
+        })
+        .catch((error) => {
+          alert('senha ou email errado');
         });
 
       reset();
@@ -67,7 +74,6 @@ export const Login = () => {
               ref={formRef}
             >
               <h1 className='text-white mb-5'>Login</h1>
-
               <InputCS
                 name='email'
                 className={`w-50 form-control mt-3 ${classs}`}
@@ -79,10 +85,14 @@ export const Login = () => {
                 placeholder='Senha'
                 type={`${isChecked}`}
               />
-
-              <button className='btn btn-success rounded mt-3 w-50'>
+              <button className='btn btn-success rounded mt-5 w-50'>
                 Login
               </button>
+              <br />
+              <div className='d-flex justify-content-between forgoutPass mt-1'>
+                <a href=''>Esqueceu a senha?</a>{' '}
+                <a href='/registrar'>Registrar</a>
+              </div>
             </Form>
           </div>
         </div>
