@@ -16,7 +16,19 @@ export const UserController = () => {
 
   const create = async (req: Request, res: Response) => {
     try {
-      const { name, password, email } = req.body;
+      const {
+        name,
+        password,
+        email,
+        cep,
+        city,
+        complement,
+        lastName,
+        neighborhood,
+        number,
+        state,
+        street,
+      } = req.body;
       const check = await User.findOne({
         where: {
           email,
@@ -34,6 +46,14 @@ export const UserController = () => {
         name: name,
         password: hashedPass,
         email: email,
+        cep,
+        city,
+        complement,
+        lastName,
+        neighborhood,
+        number,
+        state,
+        street,
       });
 
       return res.status(200).send(result);
@@ -86,11 +106,35 @@ export const UserController = () => {
   const upDateProfile = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { name, password, email } = req.body;
+      const {
+        name,
+        password,
+        email,
+        cep,
+        city,
+        complement,
+        lastName,
+        neighborhood,
+        number,
+        state,
+        street,
+      } = req.body;
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(password, salt);
       const result = await User.update(
-        { name, password: hashedPass, email },
+        {
+          name,
+          email,
+          cep,
+          city,
+          complement,
+          lastName,
+          neighborhood,
+          number,
+          state,
+          street,
+          password: hashedPass,
+        },
         { where: { id } }
       );
 

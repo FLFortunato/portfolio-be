@@ -20,7 +20,6 @@ export const Contact = () => {
   ];
   return (
     <div className='Contact '>
-      <Header />
       <div className='contact '>
         <h1 className='mt-5 ml-5'>
           <b>FALE COMIGO</b>
@@ -75,7 +74,6 @@ export const Contact = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

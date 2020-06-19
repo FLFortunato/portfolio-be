@@ -5,6 +5,7 @@ import { InputCS } from '../../Forms/input';
 import * as yup from 'yup';
 import { Userservice } from '../../../services/user.service';
 import { history } from '../../../history';
+import { Alert } from 'react-bootstrap';
 
 export const Login = () => {
   const [check, setCheck] = useState(Boolean);
@@ -40,9 +41,7 @@ export const Login = () => {
             history.push('/');
           }
         })
-        .catch((error) => {
-          alert('senha ou email errado');
-        });
+        .catch((error) => {});
 
       reset();
     } catch (error) {

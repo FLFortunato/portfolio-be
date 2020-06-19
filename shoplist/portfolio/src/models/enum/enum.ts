@@ -6,4 +6,5 @@ export enum Pages {
   Projects = '/projetos',
   Contact = '/contato',
   Profile = '/perfil',
+  TodoList = '/todoList',
 }

@@ -1,13 +1,9 @@
 import React, { useContext } from 'react';
 import './about.scss';
-import { Header } from '../siteStructures/header/header';
-
-import { Footer } from '../siteStructures/footer/footer';
 
 export const About = () => {
   return (
     <div className='About'>
-      <Header />
       <div className='about '>
         <div className='text d-flex justify-content-around'>
           <div className='sobre mt-4'>
@@ -37,7 +33,6 @@ export const About = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

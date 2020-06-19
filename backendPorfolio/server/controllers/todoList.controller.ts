@@ -1,6 +1,6 @@
 import { RouterBase } from '../controllers/base/base.controller';
 import { TodoList } from '../models/todoList';
-import { TodoService } from '../services/base/todoList.service';
+import { TodoService } from '../services/todoList.service';
 import { Router, Request, Response } from 'express';
 
 export const TodoListController = () => {

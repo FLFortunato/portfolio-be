@@ -30,10 +30,9 @@ export const Profile = () => {
   };
   return (
     <div>
-      <Header />
       <div className='container MainProfile'>
         <div className='body'>
-          <h1>Perfil</h1>
+          <h2>Perfil</h2>
           <div className='row'>
             <div className='col-12'>
               <Form
@@ -42,7 +41,7 @@ export const Profile = () => {
                 ref={formRef}
               >
                 <div>
-                  <h4 className='mt-5'>Dados Pessoas</h4>
+                  <h6 className='mt-3'>Dados Pessoas</h6>
                   <InputCS
                     name='email'
                     className={`w-50 form-control mt-3 `}
@@ -68,7 +67,7 @@ export const Profile = () => {
                 </div>
 
                 <div className='mt-5 '>
-                  <h4>Endereço</h4>
+                  <h6>Endereço</h6>
                   <div className='divWidth d-flex justify-content-between'>
                     <InputCS
                       name='street'
@@ -129,8 +128,6 @@ export const Profile = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { UserController } from '../controllers/user.controller';
 import { TodoListController } from '../controllers/todoList.controller';
 import { EmaiController } from '../controllers/util.controller';
+import { ShoppingListController } from '../controllers/shoppingList.controller';
 
 const routes = [
   {
@@ -15,6 +16,10 @@ const routes = [
   {
     path: '/contact',
     route: EmaiController(),
+  },
+  {
+    path: '/shopping',
+    route: ShoppingListController(),
   },
 ];
 

@@ -10,6 +10,9 @@ import { Register } from '../components/Pages/register/register.page';
 import { PrivateRoute } from './privateRoutes';
 import { Profile } from '../components/Pages/profile/profile.page';
 import { Pages } from '../models/enum/enum';
+import { TodoListApp } from '../components/Pages/projects/todoList/todoList.project';
+import { Footer } from '../components/Pages/siteStructures/footer/footer';
+import { Header } from '../components/Pages/siteStructures/header/header';
 export const Routes = () => {
   const publicRoutes = [
     {
@@ -43,10 +46,15 @@ export const Routes = () => {
       component: Profile,
       path: Pages.Profile,
     },
+    {
+      component: TodoListApp,
+      path: Pages.TodoList,
+    },
   ];
 
   return (
     <Router history={history}>
+      <Header />
       <Switch>
         {publicRoutes.map((route) => {
           return <Route exact component={route.component} path={route.path} />;
@@ -57,6 +65,7 @@ export const Routes = () => {
           );
         })}
       </Switch>
+      <Footer />
     </Router>
   );
 };
