@@ -7,7 +7,7 @@ import { Projects } from '../components/Pages/projects/projects';
 import { Contact } from '../components/Pages/contact/contact';
 import { Login } from '../components/Pages/login/login.page';
 import { Register } from '../components/Pages/register/register.page';
-import { PrivateRoute } from './privateRoutes';
+import { PrivateRoute } from './privateRoutesComponent';
 import { Profile } from '../components/Pages/profile/profile.page';
 import { Pages } from '../models/enum/enum';
 import { TodoListApp } from '../components/Pages/projects/todoList/todoList.project';
@@ -54,7 +54,6 @@ export const Routes = () => {
 
   return (
     <Router history={history}>
-      <Header />
       <Switch>
         {publicRoutes.map((route) => {
           return <Route exact component={route.component} path={route.path} />;
@@ -65,7 +64,6 @@ export const Routes = () => {
           );
         })}
       </Switch>
-      <Footer />
     </Router>
   );
 };

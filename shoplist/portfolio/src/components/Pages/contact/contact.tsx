@@ -1,16 +1,39 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './contact.scss';
 import { Header } from '../siteStructures/header/header';
-
+import Recaptcha from 'react-google-recaptcha';
 import { Footer } from '../siteStructures/footer/footer';
 import { Form } from '@unform/web';
 import { InputCS } from '../../Forms/input';
 import { TextAreaCS } from '../../Forms/textarea';
+import { UtilService } from '../../../services/util.service';
 
 export const Contact = () => {
+  const [captcha, setCaptcha] = useState('');
+
+  const onCheckCaptcha = (value: any) => {
+    setCaptcha(value);
+  };
+
   const formRef = useRef<any>();
   const handleSubmit = (data: any) => {
-    console.log(data);
+    if (captcha) {
+      UtilService()
+        .create({
+          subject: data.subject,
+          text: `
+      <h1>${data.name} </h1>
+      <div>${data.email} </div>
+      <div>${data.subject} </div>
+
+      `,
+        })
+        .finally(() => {
+          alert('Email enviado');
+        });
+    } else {
+      alert('Complete o captcha');
+    }
   };
 
   const inputs = [
@@ -20,6 +43,7 @@ export const Contact = () => {
   ];
   return (
     <div className='Contact '>
+      <Header />
       <div className='contact '>
         <h1 className='mt-5 ml-5'>
           <b>FALE COMIGO</b>
@@ -46,6 +70,13 @@ export const Contact = () => {
 
               <button className='btn btn-success w-25 mt-3'>Enviar</button>
             </Form>
+            <div className='captcha mt-4'>
+              <Recaptcha
+                sitekey='6LfOaqcZAAAAAKqfrBF4GAVkaGcWXU1sp9dhx0KU'
+                onChange={onCheckCaptcha}
+                hl='pt-BR'
+              ></Recaptcha>
+            </div>
           </div>
           <div className='col-5 '>
             <div className='row'>
@@ -74,6 +105,7 @@ export const Contact = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

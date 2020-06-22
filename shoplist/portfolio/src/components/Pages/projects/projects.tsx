@@ -8,6 +8,7 @@ import { Pages } from '../../../models/enum/enum';
 export const Projects = () => {
   return (
     <div className='Projects'>
+      <Header />
       <div className='projects d-flex justify-content-around container'>
         <div>
           <a href={Pages.TodoList}>
@@ -21,6 +22,7 @@ export const Projects = () => {
           <img src={List} alt='list' className='icons' />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

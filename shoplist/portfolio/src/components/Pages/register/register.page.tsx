@@ -5,32 +5,40 @@ import { InputCS } from '../../Forms/input';
 import * as yup from 'yup';
 import { Userservice } from '../../../services/user.service';
 import { history } from '../../../history';
+import Recaptcha from 'react-google-recaptcha';
+
 export const Register = () => {
   const [check, setCheck] = useState(Boolean);
   const [isChecked, setIsChecked] = useState('password');
   const [classs, setClasss] = useState('');
+  const [captcha, setCaptcha] = useState('');
+
   const formRef = useRef<any>();
   const handleSubmit = async (data: any, { reset }: any) => {
     try {
-      const formSchema = yup.object().shape({
-        email: yup
-          .string()
-          .email('Digite um e-mail válido')
-          .required('Campo e-mail é necessário'),
-        name: yup
-          .string()
-          .min(5, 'Nome deve ter no minímo 5 caracteres')
-          .required('Campo nome é obrigatório'),
-        password: yup.string().required('Campo senha é obrigatório'),
-      });
+      if (captcha) {
+        const formSchema = yup.object().shape({
+          email: yup
+            .string()
+            .email('Digite um e-mail válido')
+            .required('Campo e-mail é necessário'),
+          name: yup
+            .string()
+            .min(5, 'Nome deve ter no minímo 5 caracteres')
+            .required('Campo nome é obrigatório'),
+          password: yup.string().required('Campo senha é obrigatório'),
+        });
 
-      await formSchema.validate(data, {
-        abortEarly: false,
-      });
+        await formSchema.validate(data, {
+          abortEarly: false,
+        });
 
-      Userservice().create(data);
-      history.push('/');
-      reset();
+        Userservice().create(data);
+        history.push('/');
+        reset();
+      } else {
+        alert('Complete o captcha');
+      }
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         const errorMessages: any = {};
@@ -49,11 +57,15 @@ export const Register = () => {
       setIsChecked('password');
     }
   }, [check]);
+
+  const onCheckCaptcha = (value: any) => {
+    setCaptcha(value);
+  };
   return (
     <div className='RegisterMain'>
       <div className='container'>
         <div className='row justify-content-center'>
-          <div className='col-12 col-sm-6 col-md-9 '>
+          <div className='col-12 '>
             <Form
               onSubmit={handleSubmit}
               className='form-group position '
@@ -91,6 +103,13 @@ export const Register = () => {
               <button className='btn btn-success rounded mt-3 w-50'>
                 Registrar
               </button>
+              <div className='captcha mt-4'>
+                <Recaptcha
+                  sitekey='6LfOaqcZAAAAAKqfrBF4GAVkaGcWXU1sp9dhx0KU'
+                  onChange={onCheckCaptcha}
+                  hl='pt-BR'
+                ></Recaptcha>
+              </div>
             </Form>
           </div>
         </div>

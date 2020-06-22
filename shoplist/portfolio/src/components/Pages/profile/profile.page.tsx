@@ -11,7 +11,6 @@ import cep from 'cep-promise';
 export const Profile = () => {
   const formRef = useRef<any>();
   const user = JSON.parse(localStorage.getItem('userid') || '{}');
-  const [fetchedData, setFetchedData] = useState<User[]>([]);
   const [cepNumber, setCepNumber] = useState('');
 
   useEffect(() => {
@@ -28,8 +27,16 @@ export const Profile = () => {
   const handleSubmit = (data: any) => {
     Userservice().updateProfile(user, { ...data, cep: cepNumber });
   };
+
+  const personalDatas = [
+    { name: 'email', placeholder: 'Email', readOnly: true },
+    { name: 'name', placeholder: 'Nome' },
+    { name: 'lastName', placeholder: 'Sobrenome' },
+    { name: 'password', placeholder: 'Senha', type: 'password' },
+  ];
   return (
     <div>
+      <Header />
       <div className='container MainProfile'>
         <div className='body'>
           <h2>Perfil</h2>
@@ -42,28 +49,17 @@ export const Profile = () => {
               >
                 <div>
                   <h6 className='mt-3'>Dados Pessoas</h6>
-                  <InputCS
-                    name='email'
-                    className={`w-50 form-control mt-3 `}
-                    placeholder='E-mail'
-                    readOnly
-                  />
-                  <InputCS
-                    name='name'
-                    className={`w-50 form-control mt-3 $`}
-                    placeholder='Nome'
-                  />
-                  <InputCS
-                    name='lastName'
-                    className={`w-50 form-control mt-3 $`}
-                    placeholder='Sobrenome'
-                  />
-                  <InputCS
-                    name='password'
-                    className={`w-50 form-control mt-3 $`}
-                    placeholder='Senha'
-                    type='password'
-                  />
+                  {personalDatas.map((p) => {
+                    return (
+                      <InputCS
+                        name={p.name}
+                        className={`w-50 form-control mt-3 `}
+                        placeholder={p.placeholder}
+                        readOnly={p.readOnly}
+                        type={p.type}
+                      />
+                    );
+                  })}
                 </div>
 
                 <div className='mt-5 '>
@@ -128,6 +124,7 @@ export const Profile = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
