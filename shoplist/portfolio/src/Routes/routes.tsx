@@ -13,6 +13,7 @@ import { Pages } from '../models/enum/enum';
 import { TodoListApp } from '../components/Pages/projects/todoList/todoList.project';
 import { Footer } from '../components/Pages/siteStructures/footer/footer';
 import { Header } from '../components/Pages/siteStructures/header/header';
+import { Confirmation } from '../components/Pages/register/confirmation/confirmation.page';
 export const Routes = () => {
   const publicRoutes = [
     {
@@ -22,6 +23,10 @@ export const Routes = () => {
     {
       component: Register,
       path: Pages.Register,
+    },
+    {
+      component: Confirmation,
+      path: Pages.Confirmation,
     },
   ];
 

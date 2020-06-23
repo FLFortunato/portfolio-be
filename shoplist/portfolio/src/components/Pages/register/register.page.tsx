@@ -68,7 +68,7 @@ export const Register = () => {
           <div className='col-12 '>
             <Form
               onSubmit={handleSubmit}
-              className='form-group position '
+              className='form-group position align-items-center '
               ref={formRef}
             >
               <h1 className='text-white mb-5'>Registrar</h1>
@@ -103,7 +103,7 @@ export const Register = () => {
               <button className='btn btn-success rounded mt-3 w-50'>
                 Registrar
               </button>
-              <div className='captcha mt-4'>
+              <div className=' mt-4'>
                 <Recaptcha
                   sitekey='6LfOaqcZAAAAAKqfrBF4GAVkaGcWXU1sp9dhx0KU'
                   onChange={onCheckCaptcha}

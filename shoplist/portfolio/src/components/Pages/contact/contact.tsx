@@ -10,6 +10,7 @@ import { UtilService } from '../../../services/util.service';
 
 export const Contact = () => {
   const [captcha, setCaptcha] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const onCheckCaptcha = (value: any) => {
     setCaptcha(value);
@@ -18,6 +19,7 @@ export const Contact = () => {
   const formRef = useRef<any>();
   const handleSubmit = (data: any) => {
     if (captcha) {
+      setLoading(true);
       UtilService()
         .create({
           subject: data.subject,
@@ -30,6 +32,7 @@ export const Contact = () => {
         })
         .finally(() => {
           alert('Email enviado');
+          setLoading(false);
         });
     } else {
       alert('Complete o captcha');

@@ -6,8 +6,9 @@ import * as HttpStatus from 'http-status-codes';
 import * as Chalk from 'chalk';
 import { Op } from 'sequelize';
 import * as bcrypt from 'bcrypt';
-import { auth } from '../auth/jwt';
 import * as jwt from 'jsonwebtoken';
+import * as nodemailer from 'nodemailer';
+import * as _ from 'lodash';
 
 export const UserController = () => {
   const router = Router();
@@ -15,6 +16,16 @@ export const UserController = () => {
   const { all, remove, findOne, update } = RouterBase(User, UserService);
 
   const create = async (req: Request, res: Response) => {
+    const config = {
+      host: 'smtp-mail.outlook.com',
+      port: 587,
+      auth: {
+        user: 'flf.2008brasil@hotmail.com',
+        pass: process.env.PASS,
+      },
+    };
+
+    const transporter = nodemailer.createTransport(config);
     try {
       const {
         name,
@@ -56,6 +67,27 @@ export const UserController = () => {
         street,
       });
 
+      const token = jwt.sign(
+        { result: result.id },
+        process.env.SECRET_TOKEN as string,
+        { expiresIn: '1d' }
+      );
+      const message = {
+        from: 'flf.2008brasil@hotmail.com', // sender address
+        to: result.email, // list of receivers
+        subject: 'Confirmação de conta', // Subject line
+        html: `<h1> Confirme a sua conta acessando o link  </h1> <a href='http://localhost:3000/confirmation/${token}'> Clique aqui...</a> `, // plain text bodyhtml: "<b>Hello world?</b>", // html body
+      };
+
+      transporter.sendMail(message, (error, info) => {
+        if (error) {
+          console.log(error);
+          res.status(400).end();
+        } else {
+          console.log('DEU CERTO');
+          res.status(200).send('E-mail sent');
+        }
+      });
       return res.status(200).send(result);
     } catch (error) {
       return res.status(400).send(error);
@@ -144,6 +176,19 @@ export const UserController = () => {
     }
   };
 
+  const emailConfirmation = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      const {
+        result: { result },
+      } = jwt.verify(token, process.env.SECRET_TOKEN as string) as any;
+
+      return res.status(200).send(result);
+    } catch (error) {
+      return error;
+    }
+  };
+
   router.post('/', create);
   router.get('/:id', findOne);
   router.get('/', all);
@@ -152,6 +197,7 @@ export const UserController = () => {
   router.get('/name/:id', findAll);
   router.post('/login', login);
   router.put('/updateProfile/:id', upDateProfile);
+  router.get('/emailconfirmation/:token', emailConfirmation);
 
   return router;
 };

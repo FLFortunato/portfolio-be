@@ -32,7 +32,6 @@ export const Profile = () => {
     { name: 'email', placeholder: 'Email', readOnly: true },
     { name: 'name', placeholder: 'Nome' },
     { name: 'lastName', placeholder: 'Sobrenome' },
-    { name: 'password', placeholder: 'Senha', type: 'password' },
   ];
   return (
     <div>
@@ -56,7 +55,6 @@ export const Profile = () => {
                         className={`w-50 form-control mt-3 `}
                         placeholder={p.placeholder}
                         readOnly={p.readOnly}
-                        type={p.type}
                       />
                     );
                   })}

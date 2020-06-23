@@ -7,4 +7,5 @@ export enum Pages {
   Contact = '/contato',
   Profile = '/perfil',
   TodoList = '/todoList',
+  Confirmation = '/confirmation/:token',
 }
