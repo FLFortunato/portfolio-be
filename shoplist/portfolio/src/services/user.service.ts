@@ -12,5 +12,13 @@ export const Userservice = () => {
     return HttpService().put(`${'user'}/updateProfile/${id}`, data);
   };
 
-  return { create, get, getById, login, remove, update, updateProfile };
+  return {
+    create,
+    get,
+    getById,
+    login,
+    remove,
+    update,
+    updateProfile,
+  };
 };

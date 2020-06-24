@@ -9,6 +9,8 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import * as nodemailer from 'nodemailer';
 import * as _ from 'lodash';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export const UserController = () => {
   const router = Router();
@@ -68,15 +70,17 @@ export const UserController = () => {
       });
 
       const token = jwt.sign(
-        { result: result.id },
+        { id: result.id },
         process.env.SECRET_TOKEN as string,
-        { expiresIn: '1d' }
+        {
+          expiresIn: 600,
+        }
       );
       const message = {
         from: 'flf.2008brasil@hotmail.com', // sender address
         to: result.email, // list of receivers
         subject: 'Confirmação de conta', // Subject line
-        html: `<h1> Confirme a sua conta acessando o link  </h1> <a href='http://localhost:3000/confirmation/${token}'> Clique aqui...</a> `, // plain text bodyhtml: "<b>Hello world?</b>", // html body
+        html: `<h1> Confirme a sua conta acessando o link  </h1> <a href='http://localhost:5052/api/user/emailconfirmation/${token}'> Clique aqui...</a> `, // plain text bodyhtml: "<b>Hello world?</b>", // html body
       };
 
       transporter.sendMail(message, (error, info) => {
@@ -88,7 +92,7 @@ export const UserController = () => {
           res.status(200).send('E-mail sent');
         }
       });
-      return res.status(200).send(result);
+      return res.status(200).json(result);
     } catch (error) {
       return res.status(400).send(error);
     }
@@ -107,7 +111,7 @@ export const UserController = () => {
       res.status(HttpStatus.OK).json(result);
     } catch (error) {
       console.log(Chalk.redBright(' GETONE ERROR ==>'), error);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error });
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
     }
   };
 
@@ -140,7 +144,6 @@ export const UserController = () => {
       const { id } = req.params;
       const {
         name,
-        password,
         email,
         cep,
         city,
@@ -152,7 +155,7 @@ export const UserController = () => {
         street,
       } = req.body;
       const salt = await bcrypt.genSalt(10);
-      const hashedPass = await bcrypt.hash(password, salt);
+
       const result = await User.update(
         {
           name,
@@ -165,7 +168,6 @@ export const UserController = () => {
           number,
           state,
           street,
-          password: hashedPass,
         },
         { where: { id } }
       );
@@ -179,11 +181,20 @@ export const UserController = () => {
   const emailConfirmation = async (req: Request, res: Response) => {
     try {
       const { token } = req.params;
-      const {
-        result: { result },
-      } = jwt.verify(token, process.env.SECRET_TOKEN as string) as any;
+      const id = await jwt.verify(
+        token,
+        process.env.SECRET_TOKEN as string,
+        (e, d: any) => {
+          return d.id;
+        }
+      );
+      const UserID = id as any;
 
-      return res.status(200).send(result);
+      const updateUser = await User.update(
+        { emailConfirmed: true },
+        { where: { id: UserID } }
+      );
+      return res.redirect('http://localhost:3000/login');
     } catch (error) {
       return error;
     }

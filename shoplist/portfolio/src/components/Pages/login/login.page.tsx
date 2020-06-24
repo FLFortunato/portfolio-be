@@ -31,14 +31,14 @@ export const Login = () => {
       Userservice()
         .login(data)
         .then((res) => {
-          if (res.data.user.emailConfirmed === false) {
-            alert('Confirme o endereço de email');
-          } else {
+          if (res.data.user.emailConfirmed) {
             localStorage.setItem('auth-token', res.data.token);
             const userIdCheck = res.data.user.id;
             localStorage.setItem('userid', userIdCheck);
 
             history.push('/');
+          } else {
+            console.log('email nao confirmado');
           }
         })
         .catch((error) => {});
