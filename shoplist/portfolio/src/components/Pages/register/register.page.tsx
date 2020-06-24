@@ -6,6 +6,10 @@ import * as yup from 'yup';
 import { Userservice } from '../../../services/user.service';
 import { history } from '../../../history';
 import Recaptcha from 'react-google-recaptcha';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 export const Register = () => {
   const [check, setCheck] = useState(Boolean);
@@ -33,7 +37,16 @@ export const Register = () => {
           abortEarly: false,
         });
 
-        Userservice().create(data);
+        Userservice()
+          .create(data)
+          .then(() => {
+            toast.info('E-mail de verificação enviado', {
+              position: toast.POSITION.BOTTOM_CENTER as any,
+            });
+          })
+          .catch(() => {
+            toast.warn('Algo de errado aconteceu');
+          });
         history.push('/');
         reset();
       } else {
@@ -100,7 +113,10 @@ export const Register = () => {
                 type={`${isChecked}`}
               />
               <div className='mt-2'></div>
-              <button className='btn btn-success rounded mt-3 w-50'>
+              <button
+                className={`btn btn-success rounded mt-3 w-50 `}
+                disabled={captcha ? false : true}
+              >
                 Registrar
               </button>
               <div className=' mt-4'>

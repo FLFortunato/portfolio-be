@@ -6,8 +6,11 @@ import { Footer } from '../siteStructures/footer/footer';
 import './profile.scss';
 import { Form } from '@unform/web';
 import { InputCS } from '../../Forms/input';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import cep from 'cep-promise';
 
+toast.configure();
 export const Profile = () => {
   const formRef = useRef<any>();
   const user = JSON.parse(localStorage.getItem('userid') || '{}');
@@ -25,7 +28,13 @@ export const Profile = () => {
   }, [cepNumber]);
 
   const handleSubmit = (data: any) => {
-    Userservice().updateProfile(user, { ...data, cep: cepNumber });
+    Userservice()
+      .updateProfile(user, { ...data, cep: cepNumber })
+      .then(() => {
+        toast.success('Dados alterados', {
+          position: toast.POSITION.BOTTOM_CENTER as any,
+        });
+      });
   };
 
   const personalDatas = [

@@ -8,14 +8,14 @@ import { Op } from 'sequelize';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import * as nodemailer from 'nodemailer';
-import * as _ from 'lodash';
 import * as dotenv from 'dotenv';
+import { auth } from '../auth/jwt';
 dotenv.config();
 
 export const UserController = () => {
   const router = Router();
 
-  const { all, remove, findOne, update } = RouterBase(User, UserService);
+  const { all, remove, update, findOne } = RouterBase(User, UserService);
 
   const create = async (req: Request, res: Response) => {
     const config = {

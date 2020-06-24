@@ -6,9 +6,12 @@ import * as yup from 'yup';
 import { Userservice } from '../../../services/user.service';
 import { history } from '../../../history';
 import { Alert } from 'react-bootstrap';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
+toast.configure();
 
 export const Login = () => {
-  const [check, setCheck] = useState(Boolean);
   const [isChecked, setIsChecked] = useState('password');
   const [classs, setClasss] = useState('');
 
@@ -38,7 +41,9 @@ export const Login = () => {
 
             history.push('/');
           } else {
-            console.log('email nao confirmado');
+            toast.dark('E-mail não verificado', {
+              position: toast.POSITION.BOTTOM_CENTER as any,
+            });
           }
         })
         .catch((error) => {});
@@ -55,13 +60,6 @@ export const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (check) {
-      setIsChecked('');
-    } else {
-      setIsChecked('password');
-    }
-  }, [check]);
   return (
     <div className='RegisterMain'>
       <div className='container'>
