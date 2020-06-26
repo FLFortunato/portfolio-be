@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './todoList.scss';
-import { InputCS } from '../../../Forms/input';
 import { TodoListService } from '../../../../services/todoList.service';
 import { TodoList } from '../../../../models/todoList.model';
 import { EditModal } from './modal';
