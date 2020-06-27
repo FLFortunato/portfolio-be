@@ -38,8 +38,7 @@ export const Login = () => {
             localStorage.setItem('auth-token', res.data.token);
             const userIdCheck = res.data.user.id;
             localStorage.setItem('userid', userIdCheck);
-
-            history.push('/');
+            history.push('/home');
           } else {
             toast.dark('E-mail não verificado', {
               position: toast.POSITION.BOTTOM_CENTER as any,
