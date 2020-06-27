@@ -8,4 +8,5 @@ export enum Pages {
   Profile = '/perfil',
   TodoList = '/todoList',
   Confirmation = '/confirmation/:token',
+  Posts = '/posts',
 }

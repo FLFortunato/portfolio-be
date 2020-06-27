@@ -1,8 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Userservice } from '../../../services/user.service';
-import { User } from '../../../models/user.model';
-import { Header } from '../siteStructures/header/header';
-import { Footer } from '../siteStructures/footer/footer';
 import './profile.scss';
 import { Form } from '@unform/web';
 import { InputCS } from '../../Forms/input';
@@ -44,7 +41,6 @@ export const Profile = () => {
   ];
   return (
     <div>
-      <Header />
       <div className='container MainProfile'>
         <div className='body'>
           <h2>Perfil</h2>
@@ -56,7 +52,7 @@ export const Profile = () => {
                 ref={formRef}
               >
                 <div>
-                  <h6 className='mt-3'>Dados Pessoas</h6>
+                  <h6 className='mt-3'>Dados Pessoais</h6>
                   {personalDatas.map((p) => {
                     return (
                       <InputCS
@@ -131,7 +127,6 @@ export const Profile = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

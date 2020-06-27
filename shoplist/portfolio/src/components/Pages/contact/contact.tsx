@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './contact.scss';
-import { Header } from '../siteStructures/header/header';
 import Recaptcha from 'react-google-recaptcha';
-import { Footer } from '../siteStructures/footer/footer';
+
 import { Form } from '@unform/web';
 import { InputCS } from '../../Forms/input';
 import { TextAreaCS } from '../../Forms/textarea';
@@ -46,7 +45,6 @@ export const Contact = () => {
   ];
   return (
     <div className='Contact '>
-      <Header />
       <div className='contact '>
         <h1 className='mt-5 ml-5'>
           <b>FALE COMIGO</b>
@@ -108,7 +106,6 @@ export const Contact = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -4,8 +4,7 @@ import { TodoListService } from '../../../../services/todoList.service';
 import { TodoList } from '../../../../models/todoList.model';
 import { EditModal } from './modal';
 import { TodoListContext } from '../../../context/todoList.context';
-import { Header } from '../../siteStructures/header/header';
-import { Footer } from '../../siteStructures/footer/footer';
+
 export const TodoListApp = () => {
   const [list, setList] = useState<TodoList[]>([]);
   const [reloadList, setReloadList] = useState([{}]);
@@ -36,7 +35,6 @@ export const TodoListApp = () => {
   };
   return (
     <>
-      <Header />
       <div className='container TodoList rounded'>
         <div className='listBody mt-2 border rounded'>
           <div className='listHead border text-center '>
@@ -79,7 +77,6 @@ export const TodoListApp = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

@@ -6,6 +6,7 @@ import * as BodyParser from 'body-parser';
 import { AllRoutes } from './routes';
 import { TodoList } from './models/todoList';
 import { ShoppingList } from './models/shoppingList';
+import { Post } from './models/posts';
 const cors = require('cors');
 dotenv.config();
 const app = express();
@@ -21,7 +22,7 @@ app.use(BodyParser.urlencoded({ extended: false }));
 app.use(BodyParser.json());
 app.use('/api', AllRoutes());
 
-const models = [User, TodoList, ShoppingList];
+const models = [User, TodoList, ShoppingList, Post];
 
 const host = process.env.HOST;
 app.listen(5052, () => {

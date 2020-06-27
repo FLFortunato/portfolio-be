@@ -13,6 +13,7 @@ import { Pages } from '../models/enum/enum';
 import { TodoListApp } from '../components/Pages/projects/todoList/todoList.project';
 import { Footer } from '../components/Pages/siteStructures/footer/footer';
 import { Header } from '../components/Pages/siteStructures/header/header';
+import { Posts } from '../components/Pages/projects/posts/post';
 
 export const Routes = () => {
   const publicRoutes = [
@@ -51,20 +52,32 @@ export const Routes = () => {
       component: TodoListApp,
       path: Pages.TodoList,
     },
+    {
+      component: Posts,
+      path: Pages.Posts,
+    },
   ];
 
   return (
-    <Router history={history}>
-      <Switch>
-        {publicRoutes.map((route) => {
-          return <Route exact component={route.component} path={route.path} />;
-        })}
-        {privateRoutes.map((route) => {
-          return (
-            <PrivateRoute exact component={route.component} path={route.path} />
-          );
-        })}
-      </Switch>
-    </Router>
+    <div>
+      <Router history={history}>
+        <Switch>
+          {publicRoutes.map((route) => {
+            return (
+              <Route exact component={route.component} path={route.path} />
+            );
+          })}
+          {privateRoutes.map((route) => {
+            return (
+              <PrivateRoute
+                exact
+                component={route.component}
+                path={route.path}
+              />
+            );
+          })}
+        </Switch>
+      </Router>
+    </div>
   );
 };

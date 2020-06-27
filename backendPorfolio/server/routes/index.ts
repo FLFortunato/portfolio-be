@@ -3,6 +3,7 @@ import { UserController } from '../controllers/user.controller';
 import { TodoListController } from '../controllers/todoList.controller';
 import { EmaiController } from '../controllers/util.controller';
 import { ShoppingListController } from '../controllers/shoppingList.controller';
+import { PostController } from '../controllers/post.controller';
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: '/shopping',
     route: ShoppingListController(),
+  },
+  {
+    path: '/posts',
+    route: PostController(),
   },
 ];
 
