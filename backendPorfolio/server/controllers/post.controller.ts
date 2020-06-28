@@ -48,6 +48,7 @@ export const PostController = () => {
   router.get('/:id', findAll);
   router.delete('/:id', remove);
   router.put('/:id', update);
+  router.get('/byone/:id', findOne);
 
   return router;
 };

@@ -60,6 +60,7 @@ export const Routes = () => {
 
   return (
     <div>
+      <Header />
       <Router history={history}>
         <Switch>
           {publicRoutes.map((route) => {
@@ -78,6 +79,7 @@ export const Routes = () => {
           })}
         </Switch>
       </Router>
+      <Footer />
     </div>
   );
 };

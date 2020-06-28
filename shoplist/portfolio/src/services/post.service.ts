@@ -9,5 +9,9 @@ export const PostServices = () => {
     return HttpService().post(`posts/${id}`, data);
   };
 
-  return { get, remove, update, create };
+  const getById = (id: any): Promise<AxiosResponse<any>> => {
+    return HttpService().get(`posts/byone/${id}`);
+  };
+
+  return { get, remove, update, create, getById };
 };

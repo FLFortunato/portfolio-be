@@ -2,6 +2,8 @@ import React from 'react';
 import './projects.scss';
 
 import List from '../../../assets/icons/list.svg';
+
+import Chat from '../../../assets/icons/comment.svg';
 import { Pages } from '../../../models/enum/enum';
 
 export const Projects = () => {
@@ -15,7 +17,7 @@ export const Projects = () => {
         </div>
         <div>
           <a href={Pages.Posts}>
-            <img src={List} alt='list' className='icons' />
+            <img src={Chat} alt='list' className='icons' />
           </a>
         </div>
         <div>
