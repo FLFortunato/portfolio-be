@@ -12,7 +12,7 @@ export const PostController = () => {
     try {
       const { id } = req.params;
 
-      const { title, content, type } = req.body;
+      const { title, content, type, writenBy } = req.body;
 
       const findUser = await User.findOne({ where: { id } });
       if (!findUser) {
@@ -24,6 +24,7 @@ export const PostController = () => {
         title,
         content,
         type,
+        writenBy,
       });
 
       return res.status(200).json(result);

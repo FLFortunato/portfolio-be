@@ -12,7 +12,7 @@ export const Header = () => {
         <nav className='mt-4 m-3'>
           <ul className='d-flex ulStyle'>
             <li className='m-2'>
-              <a href='/'> Home</a>
+              <a href='/home'> Home</a>
             </li>
             <li className='m-2'>
               <a href='/sobre'> Sobre</a>

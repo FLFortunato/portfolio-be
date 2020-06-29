@@ -5,12 +5,15 @@ import { Form } from '@unform/web';
 import { InputCS } from '../../../Forms/input';
 import { TextAreaCS } from '../../../Forms/textarea';
 import { EditModal } from '../posts/modal';
+import './posts.scss';
+import { Userservice } from '../../../../services/user.service';
 
 export const Posts = () => {
   const formRef = useRef<any>();
   const [posts, setPosts] = useState<Post[]>([]);
   const [reloadList, setReloadList] = useState([{}]);
-  const [type, setType] = useState(Number);
+  const [type, setType] = useState(1);
+  const [actualUser, setActualUser] = useState('');
   const userId = JSON.parse(localStorage.getItem('userid') || '{}');
 
   const selectType = (data: any) => {
@@ -29,13 +32,26 @@ export const Posts = () => {
       });
   }, [reloadList]);
 
+  useEffect(() => {
+    Userservice()
+      .getById(userId)
+      .then((res) => {
+        setActualUser(res.data.name);
+      });
+  }, []);
+
   const handleForm = (data: any) => {
     if (data.content.length == 0) {
       return;
     } else {
       PostServices()
         .create(
-          { title: data.title, type: type, content: data.content },
+          {
+            title: data.title,
+            type: type,
+            content: data.content,
+            writenBy: actualUser,
+          },
           userId
         )
         .then((res) => {
@@ -80,7 +96,7 @@ export const Posts = () => {
   );
 
   return (
-    <div className='container'>
+    <div className='container mainPosts my-5'>
       <div className=''>
         <h3>Posts</h3>
       </div>
@@ -88,25 +104,25 @@ export const Posts = () => {
       {posts.map((p) => {
         return (
           <div key={p.id} className='my-3 border p-4'>
-            <h6>{p.title}</h6>
-            <p
-              style={p.type === 1 ? { color: 'blue' } : { color: 'red' }}
-              className='mt-4'
-            >
-              {p.content}
-            </p>
-            {p.userPostId == userId ? (
-              <div className='d-flex'>
-                <EditModal data={p.id} />
-                <button
-                  className='btn btn-danger ml-3'
-                  title='Excluir'
-                  onClick={() => deletePost(p.id)}
-                >
-                  <span className='material-icons'>delete_outline</span>
-                </button>
-              </div>
-            ) : undefined}
+            <h5 style={p.type === 1 ? { color: 'blue' } : { color: 'red' }}>
+              {p.title}
+            </h5>
+            <p className='mt-3'>{p.content}</p>
+            <i className=''> Por: {p.writenBy}</i>
+            <div className='mt-3'>
+              {p.userPostId == userId ? (
+                <div className='d-flex'>
+                  <EditModal data={p.id} />
+                  <button
+                    className='btn btn-danger ml-3'
+                    title='Excluir'
+                    onClick={() => deletePost(p.id)}
+                  >
+                    <span className='material-icons'>delete_outline</span>
+                  </button>
+                </div>
+              ) : undefined}
+            </div>
           </div>
         );
       })}

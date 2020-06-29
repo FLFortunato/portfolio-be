@@ -35,7 +35,7 @@ export const TodoListApp = () => {
   };
   return (
     <>
-      <div className='container TodoList rounded'>
+      <div className='container TodoList rounded my-5 '>
         <div className='listBody mt-2 border rounded'>
           <div className='listHead border text-center '>
             <h1 className='mt-3'>Todo List</h1>

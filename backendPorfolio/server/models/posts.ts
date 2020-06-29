@@ -23,4 +23,7 @@ export class Post extends Model<Post> {
 
   @Column
   content: string;
+
+  @Column
+  writenBy: string;
 }

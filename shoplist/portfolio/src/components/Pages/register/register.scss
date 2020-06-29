@@ -1,11 +1,12 @@
 .RegisterMain {
-  background: rgb(1, 4, 2);
-  background: linear-gradient(
-    90deg,
-    rgba(1, 4, 2, 1) 4%,
-    rgba(0, 10, 36, 1) 22%,
-    rgba(36, 139, 53, 1) 97%
-  );
+  // background: rgb(1, 4, 2);
+  // background: linear-gradient(
+  //   90deg,
+  //   rgba(1, 4, 2, 1) 4%,
+  //   rgba(0, 10, 36, 1) 22%,
+  //   rgba(36, 139, 53, 1) 97%
+  // );
+  overflow: hidden;
   font-family: 'Times New Roman', Times, serif;
   min-width: 100vh;
   min-height: 100vh;

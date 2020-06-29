@@ -88,7 +88,6 @@ export const UserController = () => {
           console.log(error);
           res.status(400).end();
         } else {
-          console.log('DEU CERTO');
           res.status(200).send('E-mail sent');
         }
       });
