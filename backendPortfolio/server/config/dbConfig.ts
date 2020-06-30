@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const dbName = process.env.DBNAME as string;
-const dbBrand = process.env.DBBRAND as string;
+const dbBrands = process.env.DBBRAND as string;
 const dbPass = process.env.DBPASS;
 const host = process.env.HOST;
 const dialect = 'postgres';
@@ -13,4 +13,4 @@ const options: SequelizeOptions = {
   dialect,
   models: [__dirname + '/models'],
 };
-export const sequelize = new Sequelize(dbName, dbBrand, dbPass, options);
+export const sequelize = new Sequelize(dbName, dbBrands, dbPass, options);
