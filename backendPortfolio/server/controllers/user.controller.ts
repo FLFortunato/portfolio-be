@@ -15,19 +15,20 @@ dotenv.config();
 export const UserController = () => {
   const router = Router();
 
+  const config = {
+    host: 'smtp-mail.outlook.com',
+    port: 587,
+    auth: {
+      user: 'flf.2008brasil@hotmail.com',
+      pass: process.env.PASS,
+    },
+  };
+
+  const transporter = nodemailer.createTransport(config);
+
   const { all, remove, update, findOne } = RouterBase(User, UserService);
 
   const create = async (req: Request, res: Response) => {
-    const config = {
-      host: 'smtp-mail.outlook.com',
-      port: 587,
-      auth: {
-        user: 'flf.2008brasil@hotmail.com',
-        pass: process.env.PASS,
-      },
-    };
-
-    const transporter = nodemailer.createTransport(config);
     try {
       const {
         name,
@@ -73,13 +74,13 @@ export const UserController = () => {
         { id: result.id },
         process.env.SECRET_TOKEN as string,
         {
-          expiresIn: 600,
+          expiresIn: 3600,
         }
       );
       const message = {
-        from: 'flf.2008brasil@hotmail.com', // sender address
-        to: result.email, // list of receivers
-        subject: 'Confirmação de conta', // Subject line
+        from: 'flf.2008brasil@hotmail.com',
+        to: result.email,
+        subject: 'Confirmação de conta',
         html: `<h1> Confirme a sua conta acessando o link  </h1> <a href='http://localhost:5052/api/user/emailconfirmation/${token}'> Clique aqui...</a> `, // plain text bodyhtml: "<b>Hello world?</b>", // html body
       };
 
@@ -199,6 +200,68 @@ export const UserController = () => {
     }
   };
 
+  const forgotPass = async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+
+      const user = await User.findOne({ where: { email } });
+
+      if (!user) return res.status(404).send('Email not found');
+
+      const resetToken = jwt.sign(
+        { id: user.id },
+        process.env.SECRET_TOKEN as string,
+        {
+          expiresIn: 600,
+        }
+      );
+
+      const message = {
+        from: 'flf.2008brasil@hotmail.com',
+        to: email,
+        subject: 'Configurar nova senha',
+        html: `<h1> Para configurar uma nova senha, acesse o link ao lado <a href='http://localhost:3000/resetarsenha/${resetToken}'> <button> Clique aqui </button> </a> </h1>`, // plain text bodyhtml: "<b>Hello world?</b>", // html body
+      };
+
+      transporter.sendMail(message, (error, info) => {
+        if (error) {
+          console.log(error);
+          res.status(400).end();
+        } else {
+          res.status(200).send(resetToken);
+        }
+      });
+      return res.header('reset-token', resetToken).json(resetToken);
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const resetPass = async (req: Request, res: Response) => {
+    try {
+      const { password, token } = req.body;
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPass = await bcrypt.hash(password, salt);
+      const id = await jwt.verify(
+        token,
+        process.env.SECRET_TOKEN as string,
+        (e: any, d: any) => {
+          return d.id;
+        }
+      );
+
+      const UserID = id as any;
+
+      const updateUser = await User.update(
+        { password: hashedPass },
+        { where: { id: UserID } }
+      );
+      return res.status(200);
+    } catch (error) {
+      return res.sendStatus(404);
+    }
+  };
   router.post('/', create);
   router.get('/:id', findOne);
   router.get('/', all);
@@ -208,6 +271,8 @@ export const UserController = () => {
   router.post('/login', login);
   router.put('/updateProfile/:id', upDateProfile);
   router.get('/emailconfirmation/:token', emailConfirmation);
+  router.post('/forgotPass/pass', forgotPass);
+  router.put('/resetpass/pass', resetPass);
 
   return router;
 };
