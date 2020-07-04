@@ -97,7 +97,7 @@ export const UserService = () => {
       }
     });
 
-    return result
+    return result;
   };
 
   const login = async (email: string, password: string) => {
@@ -115,7 +115,7 @@ export const UserService = () => {
     return { token, user };
   };
 
-  const resetPass = async (email: string) => {
+  const forgotPass = async (email: string) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user) return 'Email not found';
@@ -145,5 +145,55 @@ export const UserService = () => {
     });
     return resetToken;
   };
-  return { all, create, findOne, remove, update, resetPass, login };
+
+  const resetPass = async (password: string, token: string) => {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(password, salt);
+    const id = await jwt.verify(
+      token,
+      process.env.SECRET_TOKEN as string,
+      (e: any, d: any) => {
+        return d.id;
+      }
+    );
+
+    const UserID = id as any;
+
+    const updateUser = await User.update(
+      { password: hashedPass },
+      { where: { id: UserID } }
+    );
+
+    return updateUser;
+  };
+
+  const emailConfirmation = async (token: string) => {
+    const id = await jwt.verify(
+      token,
+      process.env.SECRET_TOKEN as string,
+      (e, d: any) => {
+        return d.id;
+      }
+    );
+    const UserID = id as any;
+
+    const updateUser = await User.update(
+      { emailConfirmed: true },
+      { where: { id: UserID } }
+    );
+
+    return updateUser;
+  };
+
+  return {
+    all,
+    create,
+    findOne,
+    remove,
+    update,
+    resetPass,
+    login,
+    forgotPass,
+    emailConfirmation,
+  };
 };

@@ -136,20 +136,9 @@ export const UserController = () => {
   const emailConfirmation = async (req: Request, res: Response) => {
     try {
       const { token } = req.params;
-      const id = await jwt.verify(
-        token,
-        process.env.SECRET_TOKEN as string,
-        (e, d: any) => {
-          return d.id;
-        }
-      );
-      const UserID = id as any;
+      const result = await UserService().emailConfirmation(token);
 
-      const updateUser = await User.update(
-        { emailConfirmed: true },
-        { where: { id: UserID } }
-      );
-      return res.redirect('http://localhost:3000/login');
+      return res.redirect('http://localhost:3000');
     } catch (error) {
       return error;
     }
@@ -160,7 +149,7 @@ export const UserController = () => {
       const { email } = req.body;
 
       const result = await UserService()
-        .resetPass(email)
+        .forgotPass(email)
         .then(() => {
           res.sendStatus(200).send('Deu certo');
         });
@@ -175,23 +164,9 @@ export const UserController = () => {
     try {
       const { password, token } = req.body;
 
-      const salt = await bcrypt.genSalt(10);
-      const hashedPass = await bcrypt.hash(password, salt);
-      const id = await jwt.verify(
-        token,
-        process.env.SECRET_TOKEN as string,
-        (e: any, d: any) => {
-          return d.id;
-        }
-      );
+      const result = await UserService().resetPass(password, token);
 
-      const UserID = id as any;
-
-      const updateUser = await User.update(
-        { password: hashedPass },
-        { where: { id: UserID } }
-      );
-      return res.status(200);
+      return result;
     } catch (error) {
       return res.sendStatus(404);
     }

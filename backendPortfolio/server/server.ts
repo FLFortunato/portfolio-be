@@ -7,6 +7,7 @@ import { AllRoutes } from './routes';
 import { TodoList } from './models/todoList';
 import { ShoppingList } from './models/shoppingList';
 import { Post } from './models/posts';
+import * as Moment from 'moment';
 const cors = require('cors');
 dotenv.config();
 const app = express();
