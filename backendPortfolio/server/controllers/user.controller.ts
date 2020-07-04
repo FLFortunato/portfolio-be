@@ -7,24 +7,12 @@ import * as Chalk from 'chalk';
 import { Op } from 'sequelize';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import { auth } from '../auth/jwt';
 dotenv.config();
 
 export const UserController = () => {
   const router = Router();
-
-  const config = {
-    host: 'smtp-mail.outlook.com',
-    port: 587,
-    auth: {
-      user: 'flf.2008brasil@hotmail.com',
-      pass: process.env.PASS,
-    },
-  };
-
-  const transporter = nodemailer.createTransport(config);
 
   const { all, remove, update, findOne } = RouterBase(User, UserService);
 
@@ -43,55 +31,27 @@ export const UserController = () => {
         state,
         street,
       } = req.body;
-      const check = await User.findOne({
-        where: {
+      const result = await UserService()
+        .create({
+          name,
+          password,
           email,
-        },
-      });
+          cep,
+          city,
+          complement,
+          lastName,
+          neighborhood,
+          number,
+          state,
+          street,
+        })
+        .then((response) => {
+          return response;
+        })
+        .catch((e) => {
+          return e;
+        });
 
-      if (check) {
-        return res.status(400).send('Email is being used already.');
-      }
-
-      const salt = await bcrypt.genSalt(10);
-      const hashedPass = await bcrypt.hash(password, salt);
-
-      const result = await User.create({
-        name: name,
-        password: hashedPass,
-        email: email,
-        cep,
-        city,
-        complement,
-        lastName,
-        neighborhood,
-        number,
-        state,
-        street,
-      });
-
-      const token = jwt.sign(
-        { id: result.id },
-        process.env.SECRET_TOKEN as string,
-        {
-          expiresIn: 3600,
-        }
-      );
-      const message = {
-        from: 'flf.2008brasil@hotmail.com',
-        to: result.email,
-        subject: 'Confirmação de conta',
-        html: `<h1> Confirme a sua conta acessando o link  </h1> <a href='http://localhost:5052/api/user/emailconfirmation/${token}'> Clique aqui...</a> `, // plain text bodyhtml: "<b>Hello world?</b>", // html body
-      };
-
-      transporter.sendMail(message, (error, info) => {
-        if (error) {
-          console.log(error);
-          res.status(400).end();
-        } else {
-          res.status(200).send('E-mail sent');
-        }
-      });
       return res.status(200).json(result);
     } catch (error) {
       return res.status(400).send(error);
@@ -119,21 +79,16 @@ export const UserController = () => {
     try {
       const { email, password } = req.body;
 
-      const user = await User.findOne({ where: { email } });
-      if (!user) {
-        return res.status(404).send('E-mail not found');
-      }
-      const validPass = await bcrypt.compare(password, user.password);
-      if (!validPass) {
-        return res.status(400).send('Incorrect password');
-      }
+      const result = await UserService()
+        .login(email, password)
+        .then((response) => {
+          return response;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
 
-      const token = jwt.sign(
-        { id: user.id },
-        process.env.SECRET_TOKEN as string
-      );
-
-      return res.header('auth-token', token).send({ token, user });
+      return res.json(result).send(result);
     } catch (error) {
       return error;
     }
@@ -204,34 +159,13 @@ export const UserController = () => {
     try {
       const { email } = req.body;
 
-      const user = await User.findOne({ where: { email } });
+      const result = await UserService()
+        .resetPass(email)
+        .then(() => {
+          res.sendStatus(200).send('Deu certo');
+        });
 
-      if (!user) return res.status(404).send('Email not found');
-
-      const resetToken = jwt.sign(
-        { id: user.id },
-        process.env.SECRET_TOKEN as string,
-        {
-          expiresIn: 600,
-        }
-      );
-
-      const message = {
-        from: 'flf.2008brasil@hotmail.com',
-        to: email,
-        subject: 'Configurar nova senha',
-        html: `<h1> Para configurar uma nova senha, acesse o link ao lado <a href='http://localhost:3000/resetarsenha/${resetToken}'> <button> Clique aqui </button> </a> </h1>`, // plain text bodyhtml: "<b>Hello world?</b>", // html body
-      };
-
-      transporter.sendMail(message, (error, info) => {
-        if (error) {
-          console.log(error);
-          res.status(400).end();
-        } else {
-          res.status(200).send(resetToken);
-        }
-      });
-      return res.header('reset-token', resetToken).json(resetToken);
+      return res.json(result);
     } catch (error) {
       return error;
     }
