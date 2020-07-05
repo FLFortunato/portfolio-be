@@ -25,11 +25,12 @@ app.use('/api', AllRoutes());
 
 const models = [User, TodoList, ShoppingList, Post];
 
-const host = process.env.HOST;
-app.listen(5052, () => {
+const host = 5052;
+app.listen(host, () => {
   sequelize.authenticate().then(() => {
     sequelize.addModels(models);
 
     //sequelize.sync();
   });
+  console.log('Server online on port ==>', host);
 });
