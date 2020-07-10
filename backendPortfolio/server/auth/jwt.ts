@@ -8,7 +8,7 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const verified = jwt.verify(token, process.env.SECRET_TOKEN as string);
-    req.body = verified;
+    console.log(verified);
     next();
   } catch (error) {
     res.status(400).send('Invalid Token');

@@ -3,6 +3,7 @@ import { Post } from '../models/posts';
 import { PostService } from '../services/post.service';
 import { Router, Request, Response } from 'express';
 import { User } from '../models/user.model';
+import { auth } from '../auth/jwt';
 
 export const PostController = () => {
   const router = Router();
@@ -21,13 +22,13 @@ export const PostController = () => {
 
       const result = await Post.create({
         userPostId: id,
-        title,
-        content,
-        type,
-        writenBy,
+        title: title,
+        content: content,
+        type: type,
+        writenBy: writenBy,
       });
 
-      return res.status(200).json(result);
+      return res.status(200).json(req.body);
     } catch (error) {
       return res.status(400).send(error);
     }

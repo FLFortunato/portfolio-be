@@ -171,14 +171,14 @@ export const UserController = () => {
       return res.sendStatus(404);
     }
   };
-  router.post('/', create);
-  router.get('/:id', findOne);
-  router.get('/', all);
-  router.delete('/:id', remove);
-  router.put('/:id', update);
-  router.get('/name/:id', findAll);
+  router.post('/', auth, create);
+  router.get('/:id', auth, findOne);
+  router.get('/', auth, all);
+  router.delete('/:id', auth, remove);
+  router.put('/:id', auth, update);
+  router.get('/name/:id', auth, findAll);
   router.post('/login', login);
-  router.put('/updateProfile/:id', upDateProfile);
+  router.put('/updateProfile/:id', auth, upDateProfile);
   router.get('/emailconfirmation/:token', emailConfirmation);
   router.post('/forgotPass/pass', forgotPass);
   router.put('/resetpass/pass', resetPass);
