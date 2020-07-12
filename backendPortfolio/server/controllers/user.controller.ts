@@ -171,7 +171,7 @@ export const UserController = () => {
       return res.sendStatus(404);
     }
   };
-  router.post('/', auth, create);
+  router.post('/', create);
   router.get('/:id', auth, findOne);
   router.get('/', auth, all);
   router.delete('/:id', auth, remove);

@@ -5,12 +5,15 @@ import { Op } from 'sequelize';
 export const ProductsService = () => {
   const { all, findOne, remove, update } = BaseService(Products);
 
-  const create = async ({ id, cat, name }: any) => {
+  const create = async ({ id, cat, name, price, qtd }: any) => {
     try {
       const result = await Products.create({
         userId: id,
         category: cat,
         name: name,
+        price: price,
+        qtd: qtd,
+        total: price * qtd,
       });
 
       return result;
@@ -33,5 +36,16 @@ export const ProductsService = () => {
       return error;
     }
   };
-  return { all, create, findOne, remove, update, findByCategory };
+
+  const findByUserId = async (userId: number) => {
+    try {
+      const result = await Products.findAll({ where: { userId } });
+
+      return result;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  return { all, create, findOne, remove, findByCategory, findByUserId, update };
 };

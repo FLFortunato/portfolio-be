@@ -4,6 +4,7 @@ import {
   ForeignKey,
   BelongsTo,
   Column,
+  DataType,
 } from 'sequelize-typescript';
 import { Categories } from './categories';
 import { User } from './user.model';
@@ -24,4 +25,13 @@ export class Products extends Model<Products> {
 
   @Column
   name: string;
+
+  @Column(DataType.DOUBLE)
+  price: number;
+
+  @Column
+  qtd: number;
+
+  @Column(DataType.DOUBLE)
+  total: number;
 }

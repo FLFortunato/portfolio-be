@@ -6,7 +6,7 @@ import { ShoppingListController } from '../controllers/shoppingList.controller';
 import { PostController } from '../controllers/post.controller';
 import { auth } from '../auth/jwt';
 import { CategoriesController } from '../controllers/categories';
-import { ProductsController } from '../controllers/products';
+import { ProductsController } from '../controllers/products.controller';
 
 const routes = [
   {
