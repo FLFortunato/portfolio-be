@@ -8,6 +8,8 @@ import { TodoList } from './models/todoList';
 import { ShoppingList } from './models/shoppingList';
 import { Post } from './models/posts';
 import * as Moment from 'moment';
+import { Categories } from './models/categories';
+import { Products } from './models/products';
 const cors = require('cors');
 dotenv.config();
 const app = express();
@@ -23,7 +25,7 @@ app.use(BodyParser.urlencoded({ extended: false }));
 app.use(BodyParser.json());
 app.use('/api', AllRoutes());
 
-const models = [User, TodoList, ShoppingList, Post];
+const models = [User, TodoList, ShoppingList, Post, Categories, Products];
 
 const host = 5052;
 app.listen(host, () => {

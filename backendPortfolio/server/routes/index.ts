@@ -5,11 +5,21 @@ import { EmaiController } from '../controllers/util.controller';
 import { ShoppingListController } from '../controllers/shoppingList.controller';
 import { PostController } from '../controllers/post.controller';
 import { auth } from '../auth/jwt';
+import { CategoriesController } from '../controllers/categories';
+import { ProductsController } from '../controllers/products';
 
 const routes = [
   {
     path: '/user',
     route: UserController(),
+  },
+  {
+    path: '/categories',
+    route: CategoriesController(),
+  },
+  {
+    path: '/products',
+    route: ProductsController(),
   },
 ];
 
